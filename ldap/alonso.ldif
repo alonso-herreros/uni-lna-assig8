@@ -1,0 +1,9 @@
+dn: uid=alonso,dc=arlinux,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+cn: Alonso Herreros Copete
+sn: Herreros Copete
+uid: alonso
+uidNumber: 1002
+gidNumber: 1002
+homeDirectory: /home/nfs/alonso
