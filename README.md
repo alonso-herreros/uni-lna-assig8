@@ -221,6 +221,17 @@ sudo mkdir -p /home/nfs
 sudo mount -t nfs 10.1.0.3:/home/nfs /home/nfs
 ```
 
+## Hito 2: Comprobación de acceso remoto
+
+En este punto, podemos comprobar si se puede inciar sesión y acceder al
+directorio personal desde el cliente:
+
+![Comprobación de acceso remoto](img/2.1-client-access.png)
+
+Además, podemos comprobar cómo los cambios se reflejan en el servidor:
+
+![Comprobación de cambios en el servidor](img/2.2-server-changed.png)
+
 [shield-cc-by-sa]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
 [shield-gitt]:     https://img.shields.io/badge/Degree-Telecommunication_Technologies_Engineering_|_UC3M-eee
 [shield-lna]:       https://img.shields.io/badge/Course-Linux_Networks_Administration-eee
