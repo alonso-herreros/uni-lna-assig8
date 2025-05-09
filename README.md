@@ -34,7 +34,7 @@ sudo dpkg-reconfigure slapd
 
 ![Reconfiguración de slapd](img/0.1-reconfigure-slapd.png)
 
-### Configuración de NSS
+### Configuración de NSS en el servidor
 
 El paquete `libnss-ldapd` es un módulo de NSS (Name Service Switch, a cargo de
 la **identificación** de usuarios) que nos permitirá identificar ciertas
@@ -51,7 +51,7 @@ siguiente captura de pantalla:
 
 ![Instalación de libnss-ldapd](img/0.2-install-libnss-ldapd.png)
 
-### Configuración de PAM
+### Configuración de PAM en el servidor
 
 También debemos instalar `libpam-ldapd`, un PAM (Pluggable Authentication
 Module, a cargo de la **autenticación** de usuarios) que nos permitirá
@@ -115,7 +115,7 @@ sudo mkdir -p /home/nfs/alonso
 sudo chown alonso:1002 /home/nfs/alonso
 ```
 
-### Configuración de NFS
+### Configuración de NFS en el servidor
 
 El paquete `nfs-kernel-server` es el servidor NFS que usaremos.
 
@@ -148,6 +148,78 @@ En este punto realizaremos una prueba de funcionalidad parcial, comprobando
 si podemos iniciar sesión como el nuevo usuario `alonso` correctamente:
 
 ![Comprobación de acceso local](img/1-local-test.png)
+
+## Preparación del cliente
+
+Como cliente usaremos una nueva máquina virtual con Debian 12, instalado usando
+TFTP, configurado en el servidor en un ejercicio anterior. Su única interfaz de
+red estará conectada a una red interna en la que la máquina servidor actúa de
+*gateway*, servidor DHCP y servidor TFTP.
+
+La interfaz está configurada en modo DHCP, y tiene salida al exterior a través
+del servidor sin problema:
+
+![Interfaz de red del cliente](img/0.4-client-net-demo.png)
+
+### Configuración de NSS en el cliente
+
+Usaremos el mismo módulo NSS que en el servidor, `libnss-ldapd`, para
+identificar los usuarios del servidor LDAP.
+
+```sh
+sudo apt install libnss-ldapd
+```
+
+Durante la instalación, deberemos introducir la URI el servidor LDAP. En este
+caso, la máquina servidor está configurada estáticamente para obtener la IP
+10.1.0.3, por lo que la URI del servidor será `ldap://10.1.0.3/`
+
+![Configuración de nslcd (1)](img/0.5-conf-nslcd-1.png)
+
+También deberemos introducir la base de búsqueda LDAP, que en este caso es
+`dc=arlinux,dc=com`.
+
+![Configuración de nslcd (2)](img/0.6-conf-nslcd-2.png)
+
+Finalmente, seleccionaremos las opciones `passwd` y `group` cuando se presente
+la lista de servicios.
+
+![Configuración de libnss-ldapd (3)](img/0.7-conf-libnss-ldapd.png)
+
+Podemos comprobar que esta configuración se ha realizado correctamente usando
+`getent`:
+
+![Getent en el cliente](img/0.8-getent-client.png)
+
+### Configuración de NFS en el cliente
+
+El paquete `nfs-common` es el cliente NFS que usaremos.
+
+```sh
+sudo apt install nfs-common
+```
+
+Usando el comando `showmount`, podemos comprobar que el servidor NFS está
+exportando el directorio `/home/nfs`:
+
+![Showmount en el cliente](img/0.9-showmount.png)
+
+A continuación, reiniciaremos la máquina cliente:
+
+```sh
+sudo reboot -h now
+```
+
+### Montaje del NFS en el cliente
+
+#### Montaje manual
+
+Se puede montar el NFS manualmente usando los siguientes comandos:
+
+```sh
+sudo mkdir -p /home/nfs
+sudo mount -t nfs 10.1.0.3:/home/nfs /home/nfs
+```
 
 [shield-cc-by-sa]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
 [shield-gitt]:     https://img.shields.io/badge/Degree-Telecommunication_Technologies_Engineering_|_UC3M-eee
