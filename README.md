@@ -22,9 +22,7 @@ Usaremos como servidor una máquina virtual con Debian 12 con un servidor
 OpenLDAP, y `dnsmasq` actuando de DHCP y TFTP (la misma que para el resto de
 entregables).
 
-### Reconfiguración e instalación
-
-#### Reconfiguración de `slapd`
+### Reconfiguración del servidor LDAP
 
 Dado que el servidor LDAP estaba ya instalado y configurado con la base
 `dc=marvel,dc=com`, lo primero que haremos será reconfigurarlo para que use la
@@ -36,7 +34,7 @@ sudo dpkg-reconfigure slapd
 
 ![Reconfiguración de slapd](img/0.1-reconfigure-slapd.png)
 
-#### Instalación de `libnss-ldapd`
+### Configuración de NSS
 
 El paquete `libnss-ldapd` es un módulo de NSS (Name Service Switch) que
 permite a los sistemas Linux acceder a la información de usuario y grupo
@@ -53,7 +51,7 @@ siguiente captura de pantalla:
 
 ![Instalación de libnss-ldapd](img/0.2-install-libnss-ldapd.png)
 
-#### Instalación de `libpam-ldapd`
+### Configuración de PAM
 
 El siguiente paquete a instalar es `libpam-ldapd`, un módulo de autenticación
 que nos permitirá iniciar sesión usando una entrada en un servidor LDAP.
@@ -62,7 +60,7 @@ que nos permitirá iniciar sesión usando una entrada en un servidor LDAP.
 sudo apt install libpam-ldapd
 ```
 
-#### Instalación de `nfs-kernel-server`
+### Configuración de NFS
 
 El paquete `nfs-kernel-server` es el servidor NFS que usaremos.
 
