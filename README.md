@@ -61,6 +61,60 @@ autenticarnos como usuarios de un directorio LDAP.
 sudo apt install libpam-ldapd
 ```
 
+### Creación de usuario y directorio
+
+A continuación, crearemos un usuario y su directorio personal en el servidor
+LDAP.
+
+#### Creación del usuario
+
+Para este ejercicio crearemos una entrada en el servidor LDAP con el DN
+`uid=alonso,dc=arlinux,dc=com` y la clase `posixAccount` (con todos los
+atributos que requiere). El siguiente fichero LDIF contiene los datos
+necesarios para la creación.
+
+| [`ldap/alonso.ldif`](ldap/alonso.ldif) |
+| -------------------------------------- |
+
+```ldif
+dn: uid=alonso,dc=arlinux,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+cn: Alonso Herreros Copete
+sn: Herreros Copete
+uid: alonso
+uidNumber: 1002
+gidNumber: 1002
+homeDirectory: /home/nfs/alonso
+```
+
+Una vez definida la entrada, podemos crearla con el siguiente comando:
+
+```sh
+ldapadd -xWD "cn=admin,dc=arlinux,dc=com" -f ldap/alonso.ldif
+```
+
+Le asignaremos una contraseña usando el comando `ldappasswd`:
+
+```sh
+$ ldappasswd -xWD "cn=admin,dc=arlinux,dc=com" -S "uid=alonso,dc=arlinux,dc=com"
+New password: 
+Re-enter new password: 
+Enter LDAP Password: 
+```
+
+#### Creación del directorio personal
+
+El siguiente paso será crear el directorio `/home/nfs/alonso` y asignarle los
+permisos adecuados. Como nombre de usuario dueño especificaremos `alonso`, por
+supuesto, pero el grupo no tiene un nombre aparte de su valor numérico.
+Usaremos el valor indicado en el fichero LDIF original (en este caso, `1002`).
+
+```sh
+sudo mkdir -p /home/nfs/alonso
+sudo chown alonso:1002 /home/nfs/alonso
+```
+
 ### Configuración de NFS
 
 El paquete `nfs-kernel-server` es el servidor NFS que usaremos.
