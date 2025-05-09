@@ -123,6 +123,25 @@ El paquete `nfs-kernel-server` es el servidor NFS que usaremos.
 sudo apt install nfs-kernel-server
 ```
 
+La configuración que nos interesa está en el fichero `/etc/exports`, donde
+indicaremos que queremos exportar el directorio `/home/nfs` añadiendo
+la siguiente línea:
+
+```exports
+/home/nfs *(rw,fsid=0,subtree_check)
+```
+
+A continuación, reiniciaremos el servicio NFS para recargar la configuración:
+
+```sh
+sudo systemctl restart nfs-kernel-server
+```
+
+La siguiente captura de pantalla muestra la configuración, el reinicio y el
+estado del servicio:
+
+![Configuración de NFS](img/0.3-nfs-config.png)
+
 [shield-cc-by-sa]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
 [shield-gitt]:     https://img.shields.io/badge/Degree-Telecommunication_Technologies_Engineering_|_UC3M-eee
 [shield-lna]:       https://img.shields.io/badge/Course-Linux_Networks_Administration-eee
