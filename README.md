@@ -53,8 +53,9 @@ siguiente captura de pantalla:
 
 ### Configuración de PAM
 
-El siguiente paquete a instalar es `libpam-ldapd`, un módulo de autenticación
-que nos permitirá iniciar sesión usando una entrada en un servidor LDAP.
+También debemos instalar `libpam-ldapd`, un PAM (Pluggable Authentication
+Module, a cargo de la **autenticación** de usuarios) que nos permitirá
+autenticarnos como usuarios de un directorio LDAP.
 
 ```sh
 sudo apt install libpam-ldapd
