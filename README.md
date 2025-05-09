@@ -221,7 +221,7 @@ sudo mount -t nfs 10.1.0.3:/home/nfs /home/nfs
 
 ## Hito 2: Comprobación de acceso remoto
 
-En este punto, podemos comprobar si se puede inciar sesión y acceder al
+En este punto, podemos comprobar si se puede iniciar sesión y acceder al
 directorio personal desde el cliente:
 
 ![Comprobación de acceso remoto](img/2.1-client-access.png)
