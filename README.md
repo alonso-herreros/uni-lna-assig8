@@ -212,8 +212,6 @@ sudo reboot -h now
 
 ### Montaje del NFS en el cliente
 
-#### Montaje manual
-
 Se puede montar el NFS manualmente usando los siguientes comandos:
 
 ```sh
@@ -231,6 +229,28 @@ directorio personal desde el cliente:
 Además, podemos comprobar cómo los cambios se reflejan en el servidor:
 
 ![Comprobación de cambios en el servidor](img/2.2-server-changed.png)
+
+## Extra: Montaje automático via `fstab`
+
+Para evitar tener que montar el NFS manualmente cada vez que reiniciemos la
+máquina cliente, podemos añadir la siguiente línea al fichero
+`/etc/fstab`:
+
+```fstab
+10.1.0.3:/home/nfs /home/nfs nfs noauto,rw,hard,intr,x-systemd.automount 0 0
+```
+
+Ya que el servidor requiere una interfaz de red funcional, es complicado lograr
+el montaje durante el arranque. Por lo tanto, en este ejemplo se ha usado la
+opción `noauto`, para descartar el montaje automático al inicio. Con la opción
+`x-systemd.automount`, el montaje se realizará automáticamente al acceder al
+punto de montaje.
+
+En la siguiente captura de pantalla podemos ver cómo se reinicia la máquina
+cliente y se accede al sistema de ficheros sin necesidad de montar el NFS
+manualmente:
+
+![Montaje automático del NFS](img/3-client-automount.png)
 
 [shield-cc-by-sa]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
 [shield-gitt]:     https://img.shields.io/badge/Degree-Telecommunication_Technologies_Engineering_|_UC3M-eee
