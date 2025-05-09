@@ -36,9 +36,9 @@ sudo dpkg-reconfigure slapd
 
 ### Configuración de NSS
 
-El paquete `libnss-ldapd` es un módulo de NSS (Name Service Switch) que
-permite a los sistemas Linux acceder a la información de usuario y grupo
-almacenada en un servidor LDAP.
+El paquete `libnss-ldapd` es un módulo de NSS (Name Service Switch, a cargo de
+la **identificación** de usuarios) que nos permitirá identificar ciertas
+entradas del servidor LDAP como *usuarios*.
 
 ```sh
 sudo apt install libnss-ldapd
